@@ -85,6 +85,16 @@ function validasiPesanan(array $input, array $daftarProduk): array
 {
     $kesalahan = [];
 
+    // Validasi Alamat Pengiriman (10 - 150 karakter)
+    $alamat = trim($input['alamat'] ?? '');
+    $panjangAlamat = mb_strlen($alamat);
+
+    if ($panjangAlamat === 0) {
+        $kesalahan['alamat'] = "Alamat pengiriman wajib diisi.";
+    } elseif ($panjangAlamat < 10 || $panjangAlamat > 150) {
+        $kesalahan['alamat'] = "Alamat pengiriman harus antara 10 - 150 karakter.";
+    }
+
     // Nama: wajib, 3-50 karakter
     $panjangNama = mb_strlen($input["nama"]);
     if ($panjangNama === 0) {

@@ -9,6 +9,7 @@ require __DIR__ . "/functions.php";
 $input = [
     "nama" => "",
     "whatsapp" => "",
+    "alamat" => "",
     "kode_produk" => (string) filter_input(INPUT_GET, "produk"),
     "jumlah" => "1",
     "catatan" => "",
@@ -21,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $input = [
         "nama" => trim((string) filter_input(INPUT_POST, "nama")),
         "whatsapp" => trim((string) filter_input(INPUT_POST, "whatsapp")),
+        "alamat" => trim((string) filter_input(INPUT_POST, "alamat")),
         "kode_produk" => (string) filter_input(INPUT_POST, "kode_produk"),
         "jumlah" => trim((string) filter_input(INPUT_POST, "jumlah")),
         "catatan" => trim((string) filter_input(INPUT_POST, "catatan")),
@@ -41,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "waktu" => date("Y-m-d H:i"),
             "nama" => $input["nama"],
             "whatsapp" => $input["whatsapp"],
+            "alamat" => $input["alamat"] ?? '',
             "produk" => $produk["nama"],
             "harga" => $produk["harga"],
             "jumlah" => $jumlah,
@@ -108,6 +111,14 @@ $berhasil = ($status === "berhasil" && is_string($kodeBaru));
                 value="<?= e($input["whatsapp"]) ?>">
             <?php if (isset($kesalahan["whatsapp"])): ?>
                 <small class="galat"><?= e($kesalahan["whatsapp"]) ?></small>
+            <?php endif; ?>
+        </div>
+
+        <div class="isian">
+            <label for="alamat">Alamat Pengiriman</label>
+            <textarea name="alamat" id="alamat" rows="3"></textarea><?= e($input['alamat'] ?? '') ?></textarea>
+            <?php if (isset($kesalahan['alamat'])): ?>
+                <small class="galat"><?= e($kesalahan['alamat']) ?></small>
             <?php endif; ?>
         </div>
 
