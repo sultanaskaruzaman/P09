@@ -44,6 +44,7 @@ $totalOmzet = array_sum(array_column($daftarPesanan, "total"));
                     <th>Alamat</th>
                     <th>Produk</th>
                     <th>Jumlah</th>
+                    <th>Metode</th>
                     <th>Total</th>
                     <th>Catatan</th>
                 </tr>
@@ -57,6 +58,7 @@ $totalOmzet = array_sum(array_column($daftarPesanan, "total"));
                     <td><?= e($pesanan["alamat"] ?? '') ?></td>
                     <td><?= e($pesanan["produk"]) ?></td>
                     <td><?= $pesanan["jumlah"] ?></td>
+                    <td><?= e($pesanan["metode"] ?? '') ?></td>
                     <td><?= formatRupiah($pesanan["total"]) ?></td>
                     <td><?= e($pesanan["catatan"]) ?></td>
                 </tr>

@@ -12,6 +12,7 @@ $input = [
     "alamat" => "",
     "kode_produk" => (string) filter_input(INPUT_GET, "produk"),
     "jumlah" => "1",
+    "metode" => "Ambil di toko",
     "catatan" => "",
 ];
 $kesalahan = [];
@@ -25,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "alamat" => trim((string) filter_input(INPUT_POST, "alamat")),
         "kode_produk" => (string) filter_input(INPUT_POST, "kode_produk"),
         "jumlah" => trim((string) filter_input(INPUT_POST, "jumlah")),
+        "metode" => (string) filter_input(INPUT_POST, "metode"),
         "catatan" => trim((string) filter_input(INPUT_POST, "catatan")),
     ];
 
@@ -47,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "produk" => $produk["nama"],
             "harga" => $produk["harga"],
             "jumlah" => $jumlah,
+            "metode" => $input["metode"],
             "total" => $produk["harga"] * $jumlah,
             "catatan" => $input["catatan"],
         ]);
@@ -119,6 +122,21 @@ $berhasil = ($status === "berhasil" && is_string($kodeBaru));
             <textarea name="alamat" id="alamat" rows="3"></textarea><?= e($input['alamat'] ?? '') ?></textarea>
             <?php if (isset($kesalahan['alamat'])): ?>
                 <small class="galat"><?= e($kesalahan['alamat']) ?></small>
+            <?php endif; ?>
+        </div>
+
+        <div class="isian">
+            <label>Metode Pengambilan</label>
+            <div>
+                <label style="display:inline-block; margin-right: 15px;">
+                    <input type="radio" name="metode" value="Ambil di toko" <?= $input['metode'] === 'Ambil di toko' ? 'checked' : '' ?>>Ambil di toko
+                </label>
+                <label style="display:inline-block; margin-right: 15px;">
+                    <input type="radio" name="metode" value="Kirim kurir" <?= $input['metode'] === 'Kirim kurir' ? 'checked' : '' ?>>Kirim kurir
+                </label>
+            </div>
+            <?php if (isset($kesalahan['metode'])): ?>
+                <small class="galat"><?= e($kesalahan['metode']) ?></small>
             <?php endif; ?>
         </div>
 

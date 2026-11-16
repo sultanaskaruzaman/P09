@@ -121,6 +121,14 @@ function validasiPesanan(array $input, array $daftarProduk): array
         $kesalahan["kode_produk"] = "Maaf, stok produk ini habis.";
     }
 
+    // Validasi Metode Pengambilan (Whitelist)
+    $daftarMetode = ["Ambil di toko", "Kirim kurir"];
+    $metode = $input['metode'] ?? '';
+
+    if (!in_array($metode, $daftarMetode, true)) {
+        $kesalahan['metode'] = "Pilih metode pengambilan yang sah.";
+    }
+
     // Jumlah: bilangan bulat 1-20 dan tidak melebihi stok
     $jumlah = filter_var($input["jumlah"], FILTER_VALIDATE_INT, [
         "options" => ["min_range" => 1, "max_range" => 20],
