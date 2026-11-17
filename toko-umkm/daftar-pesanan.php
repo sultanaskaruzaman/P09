@@ -5,8 +5,16 @@ require __DIR__ . "/data.php";
 require __DIR__ . "/functions.php";
 
 // Baca semua pesanan dari file JSON, tampilkan yang terbaru di atas
-$daftarPesanan = array_reverse(bacaPesanan(FILE_PESANAN));
+$daftarPesanan = bacaPesanan(FILE_PESANAN);
 $totalOmzet = array_sum(array_column($daftarPesanan, "total"));
+$qNama = trim((string) filter_input(INPUT_GET, "q_nama"));
+
+if ($qNama !== "") {
+    $daftarPesanan = array_filter($daftarPesanan, function($pesanan) use ($qNama) {
+        return isset($pesanan["nama"]) && stripos($pesanan["nama"], $qNama) !== false;
+    });
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -35,6 +43,15 @@ $totalOmzet = array_sum(array_column($daftarPesanan, "total"));
     <?php if (count($daftarPesanan) === 0): ?>
         <p class="kosong">Belum ada pesanan.</p>
     <?php else: ?>
+
+        <form action="daftar-pesanan.php" method="get" class="cari" style="margin-bottom: 20px;">
+            <input type="search" name="q_nama" placeholder="Cari nama pemesan..." value="<?= e($qNama) ?>">
+            <button type="submit">Cari</button>
+            <?php if ($qNama !== ""): ?>
+                <a href="daftar-pesanan.php" class="tombol">Reset</a>
+            <?php endif; ?>
+        </form>
+
         <table class="tabel">
             <thead>
                 <tr>
