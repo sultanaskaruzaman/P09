@@ -8,6 +8,7 @@ require __DIR__ . "/functions.php";
 // Contoh URL: index.php?q=kopi&kategori=Minuman
 $kataKunci = trim((string) filter_input(INPUT_GET, "q"));
 $kategoriDipilih = (string) filter_input(INPUT_GET, "kategori");
+$urut = trim((string) filter_input(INPUT_GET, "urut"));
 
 // ---------- 2. Validasi: kategori harus ada di daftar putih ----------
 if (!in_array($kategoriDipilih, $daftarKategori, true)) {
@@ -17,6 +18,7 @@ if (!in_array($kategoriDipilih, $daftarKategori, true)) {
 // ---------- 3. Olah data: filter kategori, lalu cari nama ----------
 $produkTampil = filterKategori($daftarProduk, $kategoriDipilih);
 $produkTampil = cariProduk($produkTampil, $kataKunci);
+$produkTampil = urutkanProduk($produkTampil, $urut);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -46,6 +48,11 @@ $produkTampil = cariProduk($produkTampil, $kataKunci);
                     <?= e($kategori) ?>
                 </option>
             <?php endforeach; ?>
+        </select>
+        <select name="urut">
+            <option value="">Urutkan</option>
+            <option value="termurah" <?= $urut === "termurah" ? "selected" : "" ?>>Termurah</option>
+            <option value="termahal" <?= $urut === "termahal" ? "selected" : "" ?>>Termahal</option>
         </select>
         <button type="submit">Cari</button>
     </form>

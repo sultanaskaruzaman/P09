@@ -127,7 +127,7 @@ function validasiPesanan(array $input, array $daftarProduk): array
 
     if (!in_array($metode, $daftarMetode, true)) {
         $kesalahan['metode'] = "Pilih metode pengambilan yang sah.";
-    }
+}
 
     // Jumlah: bilangan bulat 1-20 dan tidak melebihi stok
     $jumlah = filter_var($input["jumlah"], FILTER_VALIDATE_INT, [
@@ -168,4 +168,14 @@ function simpanPesanan(string $file, array $pesananBaru): void
 function buatKodePesanan(int $nomorUrut): string
 {
     return sprintf("PSN-%04d", $nomorUrut);
+}
+
+// Latihan 3: Fungsi khusus untuk mengurutkan harga produk
+function urutkanProduk(array $daftarProduk, string $urut = ""): array
+{
+    if ($urut === "termurah") {
+        usort($daftarProduk, fn($a, $b) => $a['harga'] <=> $b['harga']);
+    } elseif ($urut === "termahal") {
+        usort($daftarProduk, fn($a, $b) => $b['harga'] <=> $a['harga']);
+    } return $daftarProduk;
 }
